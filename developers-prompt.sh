@@ -19,6 +19,9 @@
 # Just copy to your home directory as .bashrc to installation.
 #
 
+function svn_branch () {
+    svn info | grep '^URL:' | egrep -o '(tags|branches)/[^/]+|trunk' | egrep -o '[^/]+$'
+}
 
 function pretty_prompt () {
 	_IFS=$IFS;
