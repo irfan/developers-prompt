@@ -32,6 +32,10 @@ function pretty_prompt () {
 	if [ $L -gt 4 ]; then 
 		DIR="${S[0]:0:1}/${S[1]}/../${S[$L-2]}/${S[$L-1]}";
 	fi
+
+    if [ -d ".svn" ]; then
+        DIR=$DIR:" `svn_branch`"
+    fi
 }
 
 
