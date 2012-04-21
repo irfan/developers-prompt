@@ -75,5 +75,5 @@ function pretty_prompt () {
 
 
 PROMPT_COMMAND=pretty_prompt;
-export PS1="\e[32m\$DIR\e[33m\$BRANCH \e[32m\$\e[m "
+export PS1="\[\e[32;1m\]\$DIR\[\e[33;1m\]\$BRANCH\[\e[0m\]\[\e[32;1m\] \$ \[\e[0m\]\[\e[0m\]"
 
