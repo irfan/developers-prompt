@@ -31,14 +31,14 @@
 SUFFIX=".git"
 BRANCH=""
 
-function git_branch ()
+function GET_GIT_BRANCH ()
 {
     ARG=$1
     if [ ! ${#ARG} -lt 4 ]; then
         if [ ! -d "$ARG$SUFFIX" ]; then
             BRANCH=""
             ARG=`echo $ARG | sed -e "s|[^\/]*\/$||g"`
-            git_branch "$ARG"
+            GET_GIT_BRANCH "$ARG"
         else
             CMD=`git branch | grep \* | sed -e "s|\* ||"`
             BRANCH=" [$CMD]"
@@ -47,8 +47,14 @@ function git_branch ()
 }
 
 
-function svn_branch () {
-    svn info | grep '^URL:' | egrep -o '(tags|branches)/[^/]+|trunk' | egrep -o '[^/]+$'
+function GET_SVN_BRANCH () {
+    if [ -d ".svn" ]; then
+        BRANCH=" [`svn info | grep '^URL:' | egrep -o '(tags|branches)/[^/]+|trunk' | egrep -o '[^/]+$'`]"
+    fi
+
+    if [ ${#BRANCH} -lt 4 ]; then
+        BRANCH=""
+    fi
 }
 
 function pretty_prompt () {
@@ -60,18 +66,15 @@ function pretty_prompt () {
 	if [ $L -gt 4 ]; then 
 		DIR="${S[0]:0:1}/${S[1]}/../${S[$L-2]}/${S[$L-1]}";
 	fi
-    
-    if [ -d ".svn" ]; then
-        DIR=$DIR:" `svn_branch`"
-    else
-        # set $BRANCH variable as git branch name
-        git_branch `pwd`"/"
-        DIR="$DIR$BRANCH"
-    fi
+
+    # set $BRANCH variable as git branch name
+    GET_GIT_BRANCH `pwd`"/"
+    # set $BRANCH variable as svn branch name
+    GET_SVN_BRANCH
 }
 
 
 PROMPT_COMMAND=pretty_prompt;
 
-export PS1="\$DIR \$ "
+export PS1="\$DIR\e[32m\$BRANCH\e[m \$ "
 
