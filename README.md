@@ -4,6 +4,6 @@
 About the Developer's Prompt 
 --------------------------------------
 
-Please [this instruction out](http://irfandurmus.com/projects/developers-prompt/) for screenshots and other information.
+Please [check this instruction out](http://irfandurmus.com/projects/developers-prompt/) for screenshots and other information.
 
 
